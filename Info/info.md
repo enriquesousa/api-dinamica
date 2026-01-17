@@ -8,3 +8,7 @@ Tema: 22. Como debe de ser la Base de Datos
 
 ---
 
+Fecha: Sat 17-01-26 11:51
+Tema: 23. Pasar datos de Excel a una base de datos en MySQL
+
+---
