@@ -1,4 +1,7 @@
 {
+    // Tema
+    "workbench.colorTheme": "Monokai",
+    
     "workbench.colorCustomizations": {
         "activityBar.activeBackground": "#fbed80",
         "activityBar.background": "#fbed80",
@@ -18,5 +21,42 @@
         "titleBar.inactiveBackground": "#f9e64f99",
         "titleBar.inactiveForeground": "#15202b99"
     },
-    "peacock.color": "#f9e64f"
+
+    // Peacock
+    "peacock.color": "#f9e64f",
+
+    // Spellcheck abilitar en español
+    "cSpell.language": "en,es",
+
+    // Bookmarks Que se guarden en este proyecto
+    "bookmarks.saveBookmarksInProject": true,
+    
+    // Editor Multi Cursor
+    "editor.multiCursorModifier": "ctrlCmd",
+
+    // Palabras agregadas al diccionario
+    "cSpell.words": [
+        "Descargable",
+        "logueado"
+    ],
+    
+    "git.enableSmartCommit": true,
+    "window.zoomLevel": 1,
+    "editor.fontFamily": "Fira Code",
+    "editor.fontSize": 13,
+    "editor.fontLigatures": true,
+    
+    /* Sticky Scroll */
+    "editor.stickyScroll.enabled": false,
+
+    // Instale php intelephense para format php files
+    "editor.defaultFormatter": "bmewburn.vscode-intelephense-client",
+    // Configuraciones para PHP formato de tabulaciones
+    "[php]": {
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true,
+        "editor.detectIndentation": false
+    }
+    
+
 }
