@@ -19,6 +19,7 @@ if(count($routesArray) == 0){
 // Cuando si se hace una petición a la API
 // **************************************************************
 if(count($routesArray) == 1 && isset($_SERVER['REQUEST_METHOD'])){
+
     // echo '<pre>'; print_r($_SERVER['REQUEST_METHOD']); echo '</pre>';
 
 	// $table = explode("?", $routesArray[1])[0];
@@ -48,12 +49,7 @@ if(count($routesArray) == 1 && isset($_SERVER['REQUEST_METHOD'])){
 	Peticiones GET
 	=============================================*/
 	if($_SERVER['REQUEST_METHOD'] == "GET"){
-        $json = array(
-            'status' => 200,
-            'result' => 'Solicitud GET'
-        );
-        echo json_encode($json);
-		// include "services/get.php";
+		include "services/get.php";
 	}
 
 	/*=============================================
@@ -92,6 +88,6 @@ if(count($routesArray) == 1 && isset($_SERVER['REQUEST_METHOD'])){
 		// include "services/delete.php";
 	}
 
-
+    return;
 
 }
