@@ -7,7 +7,6 @@ $routesArray = array_filter($routesArray);
 // Cuando no se hace ninguna petición a la API
 // **************************************************************
 if(count($routesArray) == 0){
-
 	$json = array(
 		'status' => 404,
 		'results' => 'Not Found'
@@ -16,20 +15,11 @@ if(count($routesArray) == 0){
 	return;
 }
 
-// $json = array(
-//     'status' => 200,
-//     'result' => 'success'
-// );
-// echo json_encode($json);
-// return;
-
-
 // **************************************************************
 // Cuando si se hace una petición a la API
 // **************************************************************
 if(count($routesArray) == 1 && isset($_SERVER['REQUEST_METHOD'])){
-
-    echo '<pre>'; print_r($_SERVER['REQUEST_METHOD']); echo '</pre>';
+    // echo '<pre>'; print_r($_SERVER['REQUEST_METHOD']); echo '</pre>';
 
 	// $table = explode("?", $routesArray[1])[0];
 
@@ -101,5 +91,7 @@ if(count($routesArray) == 1 && isset($_SERVER['REQUEST_METHOD'])){
         echo json_encode($json);
 		// include "services/delete.php";
 	}
+
+
 
 }
