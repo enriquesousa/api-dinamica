@@ -7,7 +7,7 @@ class Connection{
 	=============================================*/
 	static public function infoDatabase(){
 		$infoDB = array(
-			"database" => "database-2",
+			"database" => "database-1",
 			"user" => "root",
 			"pass" => ""
 		);
