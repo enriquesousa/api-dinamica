@@ -5,13 +5,23 @@ require_once "models/get.model.php";
 class GetController{
 
     // **************************************************************
-    // Get data
+    // Get data sin filtros
     // **************************************************************
     static public function getData($table, $select){   
         $response = GetModel::getData($table, $select);
         
         $return = new GetController();
         $return -> fncResponse($response);
+    }
+
+    // **************************************************************
+    // Get data con filtros
+    // **************************************************************
+    static public function getDataFilter($table, $select, $linkTo, $equalTo){   
+        $response = GetModel::getDataFilter($table, $select, $linkTo, $equalTo);
+        
+        $return = new GetController();
+        $return->fncResponse($response);
     }
 
     // **************************************************************
