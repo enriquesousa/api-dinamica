@@ -18,6 +18,7 @@ class GetController{
     // Get data con filtros
     // **************************************************************
     static public function getDataFilter($table, $select, $linkTo, $equalTo){   
+
         $response = GetModel::getDataFilter($table, $select, $linkTo, $equalTo);
         
         $return = new GetController();
