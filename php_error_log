@@ -88,3 +88,15 @@ Stack trace:
 #5 D:\xampp\htdocs\sites\api-dinamica\index.php(22): routesController->index()
 #6 {main}
   thrown in D:\xampp\htdocs\sites\api-dinamica\models\get.model.php on line 10
+[22-Jan-2026 19:02:54 UTC] PHP Warning:  Undefined variable $sql in D:\xampp\htdocs\sites\api-dinamica\models\get.model.php on line 17
+[22-Jan-2026 19:02:54 UTC] PHP Deprecated:  PDO::prepare(): Passing null to parameter #1 ($query) of type string is deprecated in D:\xampp\htdocs\sites\api-dinamica\models\get.model.php on line 17
+[22-Jan-2026 19:02:54 UTC] PHP Fatal error:  Uncaught ValueError: PDO::prepare(): Argument #1 ($query) must not be empty in D:\xampp\htdocs\sites\api-dinamica\models\get.model.php:17
+Stack trace:
+#0 D:\xampp\htdocs\sites\api-dinamica\models\get.model.php(17): PDO->prepare('')
+#1 D:\xampp\htdocs\sites\api-dinamica\controllers\get.controller.php(12): GetModel::getData('courses', '*', NULL, NULL)
+#2 D:\xampp\htdocs\sites\api-dinamica\routes\services\get.php(20): GetController::getData('courses', '*', NULL, NULL)
+#3 D:\xampp\htdocs\sites\api-dinamica\routes\routes.php(52): include('D:\\xampp\\htdocs...')
+#4 D:\xampp\htdocs\sites\api-dinamica\controllers\routes.controller.php(9): include_once('D:\\xampp\\htdocs...')
+#5 D:\xampp\htdocs\sites\api-dinamica\index.php(22): routesController->index()
+#6 {main}
+  thrown in D:\xampp\htdocs\sites\api-dinamica\models\get.model.php on line 17

@@ -7,9 +7,13 @@ class GetModel {
     // **************************************************************
     // Get data sin filtros
     // **************************************************************
-    static public function getData($table, $select){
+    static public function getData($table, $select, $orderBy = null, $orderMode = null){
 
-        $sql = "SELECT $select FROM $table";
+        // $sql = "SELECT $select FROM $table";
+        if($orderBy != null && $orderMode != null){
+            $sql = "SELECT $select FROM $table ORDER BY $orderBy $orderMode";
+        }
+
         $stmt = Connection::connect()->prepare($sql);
         $stmt->execute();
         $response = $stmt->fetchAll(PDO::FETCH_CLASS);
@@ -20,7 +24,7 @@ class GetModel {
     // **************************************************************
     // Get data con filtros
     // **************************************************************
-    static public function getDataFilter($table, $select, $linkTo, $equalTo){
+    static public function getDataFilter($table, $select, $linkTo, $equalTo, $orderBy = null, $orderMode = null){
 
         $linkToArray = explode(",", $linkTo);
         $equalToArray = explode("_", $equalTo);
@@ -35,7 +39,12 @@ class GetModel {
 		}
 
         // Preparar la consulta sql 
-        $sql = "SELECT $select FROM $table WHERE $linkToArray[0] = :$linkToArray[0] $linkToText"; 
+        // $sql = "SELECT $select FROM $table WHERE $linkToArray[0] = :$linkToArray[0] $linkToText"; 
+        if($orderBy != null && $orderMode != null){
+            $sql = "SELECT $select FROM $table WHERE $linkToArray[0] = :$linkToArray[0] $linkToText ORDER BY $orderBy $orderMode";
+        }
+
+
         $stmt = Connection::connect()->prepare($sql);
 
         // Para la seguridad usar bindParam de PDO
