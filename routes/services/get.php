@@ -29,6 +29,11 @@ if( isset($_GET["linkTo"]) && isset($_GET["equalTo"]) && !isset($_GET["rel"]) &&
     // Peticiones GET con filtro entre tablas relacionadas
     $response->getRelDataFilter($_GET["rel"], $_GET["type"], $select, $_GET["linkTo"], $_GET["equalTo"],$orderBy, $orderMode, $startAt, $endAt);
 
+}else if( !isset($_GET["rel"]) && !isset($_GET["type"]) && isset($_GET["linkTo"]) && isset($_GET["search"]) ){
+
+    // Peticiones para el buscador sin relaciones
+    $response->getDataSearch($table, $select, $_GET["linkTo"], $_GET["search"], $orderBy, $orderMode, $startAt, $endAt);
+
 }else{
 
     // Peticiones sin filtros
