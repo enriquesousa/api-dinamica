@@ -27,6 +27,19 @@ class GetController{
     }
 
     // **************************************************************
+    // Peticiones GET sin filtro entre tablas relacionadas
+    // **************************************************************
+    static public function getRelData($rel, $type, $select, $orderBy = null, $orderMode = null, $startAt = null, $endAt = null){
+        
+        $response = GetModel::getRelData($rel, $type, $select, $orderBy, $orderMode, $startAt, $endAt);
+        
+        $return = new GetController();
+        $return -> fncResponse($response);
+    }
+
+
+
+    // **************************************************************
     // Respuestas del controlador
     // **************************************************************
     public function fncResponse($response){

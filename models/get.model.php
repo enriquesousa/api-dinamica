@@ -83,4 +83,73 @@ class GetModel {
         return $response;
     }
 
+    // **************************************************************
+    // Get data sin filtros entre tablas relacionadas
+    // **************************************************************
+    static public function getRelData($rel, $type, $select, $orderBy = null, $orderMode = null, $startAt = null, $endAt = null){
+
+        /*=============================================
+		Validar existencia de las columnas
+		=============================================*/
+		$relArray = explode(",", $rel);
+		$typeArray = explode(",", $type);
+		$innerJoinText = "";
+
+		if(count($relArray)>1){
+
+			foreach ($relArray as $key => $value) {
+				/*=============================================
+				Validar existencia de la tabla y de las columnas
+				=============================================*/
+				// if(empty(Connection::getColumnsData($value,["*"]))){
+				// 	return null;
+				// }
+				
+				if($key > 0){
+					$innerJoinText .= "INNER JOIN ".$value." ON ".$relArray[0].".id_".$typeArray[$key]."_".$typeArray[0] ." = ".$value.".id_".$typeArray[$key]." ";
+				}
+			}
+
+			/*=============================================
+			Sin ordenar y sin limitar datos
+			=============================================*/
+			$sql = "SELECT $select FROM $relArray[0] $innerJoinText";
+
+			/*=============================================
+			Ordenar datos sin limites
+			=============================================*/
+			if($orderBy != null && $orderMode != null && $startAt == null && $endAt == null){
+				$sql = "SELECT $select FROM $relArray[0] $innerJoinText ORDER BY $orderBy $orderMode";
+			}
+
+			/*=============================================
+			Ordenar y limitar datos
+			=============================================*/
+			if($orderBy != null && $orderMode != null && $startAt != null && $endAt != null){
+				$sql = "SELECT $select FROM $relArray[0] $innerJoinText ORDER BY $orderBy $orderMode LIMIT $startAt, $endAt";
+			}
+
+			/*=============================================
+			Limitar datos sin ordenar
+			=============================================*/
+			if($orderBy == null && $orderMode == null && $startAt != null && $endAt != null){
+				$sql = "SELECT $select FROM $relArray[0] $innerJoinText LIMIT $startAt, $endAt";
+			}
+
+			$stmt = Connection::connect()->prepare($sql);
+
+			try{
+				$stmt -> execute();
+			}catch(PDOException $Exception){
+				return null;
+			}
+
+			return $stmt -> fetchAll(PDO::FETCH_CLASS);
+
+		}else{
+			return null;
+		}
+
+    }
+
 }
