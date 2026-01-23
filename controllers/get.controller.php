@@ -7,9 +7,9 @@ class GetController{
     // **************************************************************
     // Get data sin filtros
     // **************************************************************
-    static public function getData($table, $select, $orderBy = null, $orderMode = null){
+    static public function getData($table, $select, $orderBy = null, $orderMode = null, $startAt = null, $endAt = null){
         
-        $response = GetModel::getData($table, $select, $orderBy, $orderMode);
+        $response = GetModel::getData($table, $select, $orderBy, $orderMode, $startAt, $endAt);
         
         $return = new GetController();
         $return -> fncResponse($response);
@@ -18,9 +18,9 @@ class GetController{
     // **************************************************************
     // Get data con filtros
     // **************************************************************
-    static public function getDataFilter($table, $select, $linkTo, $equalTo, $orderBy = null, $orderMode = null ){   
+    static public function getDataFilter($table, $select, $linkTo, $equalTo, $orderBy = null, $orderMode = null, $startAt = null, $endAt = null){
 
-        $response = GetModel::getDataFilter($table, $select, $linkTo, $equalTo, $orderBy, $orderMode);
+        $response = GetModel::getDataFilter($table, $select, $linkTo, $equalTo, $orderBy, $orderMode, $startAt, $endAt);
         
         $return = new GetController();
         $return->fncResponse($response);
