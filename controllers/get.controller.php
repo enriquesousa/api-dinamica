@@ -37,6 +37,17 @@ class GetController{
         $return -> fncResponse($response);
     }
 
+    // **************************************************************
+    // Peticiones GET con filtro entre tablas relacionadas
+    // **************************************************************
+    static public function getRelDataFilter($rel, $type, $select, $linkTo, $equalTo, $orderBy = null, $orderMode = null, $startAt = null, $endAt = null){
+        
+        $response = GetModel::getRelDataFilter($rel, $type, $select, $linkTo, $equalTo, $orderBy, $orderMode, $startAt, $endAt);
+        
+        $return = new GetController();
+        $return -> fncResponse($response);
+    }
+
 
 
     // **************************************************************
