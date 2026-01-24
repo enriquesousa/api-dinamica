@@ -9,6 +9,13 @@ class GetModel {
     // **************************************************************
     static public function getData($table, $select, $orderBy = null, $orderMode = null, $startAt = null, $endAt = null){
 
+        // ****************************** 
+        // Validar existencia de la tabla
+        // ****************************** 
+        if( empty( Connection::getColumnsData($table) ) ){
+            return null;
+        }
+
         // Sin filtrar y sin ordenar datos 
         $sql = "SELECT $select FROM $table";
 
@@ -38,6 +45,13 @@ class GetModel {
     // Get data con filtros
     // **************************************************************
     static public function getDataFilter($table, $select, $linkTo, $equalTo, $orderBy = null, $orderMode = null, $startAt = null, $endAt = null){
+
+        // ****************************** 
+        // Validar existencia de la tabla 
+        // ****************************** 
+        if( empty( Connection::getColumnsData($table) ) ){
+            return null;
+        }
 
         $linkToArray = explode(",", $linkTo);
         $equalToArray = explode("_", $equalTo);
@@ -98,6 +112,14 @@ class GetModel {
 		if(count($relArray)>1){
 
 			foreach ($relArray as $key => $value) {
+
+                // ****************************** 
+                // Validar existencia de la tabla 
+                // ****************************** 
+                if( empty( Connection::getColumnsData($value) ) ){
+                    return null;
+                }
+
 				/*=============================================
 				Validar existencia de la tabla y de las columnas
 				=============================================*/
@@ -166,6 +188,14 @@ class GetModel {
 
         if(count($linkToArray)>1){
             foreach ($linkToArray as $key => $value) {
+
+                // ****************************** 
+                // Validar existencia de la tabla 
+                // ****************************** 
+                if( empty( Connection::getColumnsData($value) ) ){
+                    return null;
+                }
+
                 if($key > 0){
                     $linkToText .= "AND ".$value." = :".$value." ";
                 }
@@ -245,6 +275,13 @@ class GetModel {
     // **************************************************************
 	static public function getDataSearch($table, $select, $linkTo, $search, $orderBy, $orderMode, $startAt, $endAt){
 
+        // ****************************** 
+        // Validar existencia de la tabla
+        // ****************************** 
+        if( empty( Connection::getColumnsData($table) ) ){
+            return null;
+        }
+
         $linkToArray = explode(",", $linkTo);
         $searchArray = explode("_", $search);
         $linkToText = "";
@@ -304,6 +341,14 @@ class GetModel {
 
         if(count($linkToArray)>1){
 			foreach ($linkToArray as $key => $value) {
+
+                // ****************************** 
+                // Validar existencia de la tabla
+                // ****************************** 
+                if( empty( Connection::getColumnsData($value) ) ){
+                    return null;
+                }
+
 				if($key > 0){
 					$linkToText .= "AND ".$value." = :".$value." ";
 				}
@@ -386,6 +431,13 @@ class GetModel {
     // **************************************************************
     static public function getDataRange($table , $select, $linkTo, $between1, $between2, $orderBy = null, $orderMode = null, $startAt = null, $endAt = null, $filterTo = null, $inTo = null){
 
+        // ****************************** 
+        // Validar existencia de la tabla
+        // ****************************** 
+        if( empty( Connection::getColumnsData($table) ) ){
+            return null;
+        }
+
         $filter = "";
         if($filterTo != null && $inTo != null){
             $filter = "AND $filterTo IN ($inTo)";
@@ -436,6 +488,14 @@ class GetModel {
 		if(count($relArray)>1){
 
 			foreach ($relArray as $key => $value) {
+
+                // ****************************** 
+                // Validar existencia de la tabla 
+                // ****************************** 
+                if( empty( Connection::getColumnsData($value) ) ){
+                    return null;
+                }
+
 				if($key > 0){
 					$innerJoinText .= "INNER JOIN ".$value." ON ".$relArray[0].".id_".$typeArray[$key]."_".$typeArray[0] ." = ".$value.".id_".$typeArray[$key]." ";
 				}
