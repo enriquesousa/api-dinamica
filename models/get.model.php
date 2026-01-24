@@ -416,5 +416,61 @@ class GetModel {
         
     }
 
+    // ****************************************************************
+    // Peticiones GET para selección de rangos con tablas relacionadas
+    // ****************************************************************
+    static public function getRelDataRange($rel, $type, $select, $linkTo, $between1, $between2, $orderBy = null, $orderMode = null, $startAt = null, $endAt = null, $filterTo = null, $inTo = null){
+
+        $filter = "";
+        if($filterTo != null && $inTo != null){
+            $filter = "AND $filterTo IN ($inTo)";
+        }
+
+        /*=============================================
+		Validar existencia de las columnas
+		=============================================*/
+		$relArray = explode(",", $rel);
+		$typeArray = explode(",", $type);
+		$innerJoinText = "";
+
+		if(count($relArray)>1){
+
+			foreach ($relArray as $key => $value) {
+				if($key > 0){
+					$innerJoinText .= "INNER JOIN ".$value." ON ".$relArray[0].".id_".$typeArray[$key]."_".$typeArray[0] ." = ".$value.".id_".$typeArray[$key]." ";
+				}
+			}
+
+            // Sin filtrar y sin ordenar datos 
+            $sql = "SELECT $select FROM $relArray[0] $innerJoinText WHERE $linkTo BETWEEN '$between1' AND '$between2' $filter";
+
+            // Estamos Ordenando sin limitar datos
+            if($orderBy != null && $orderMode != null && $startAt == null && $endAt == null){
+                $sql = "SELECT $select FROM $relArray[0] $innerJoinText WHERE $linkTo BETWEEN '$between1' AND '$between2' $filter ORDER BY $orderBy $orderMode";
+            }
+
+            // Ordenar y limitar Datos
+            if($orderBy != null && $orderMode != null && $startAt != null && $endAt != null){
+                $sql = "SELECT $select FROM $relArray[0] $innerJoinText WHERE $linkTo BETWEEN '$between1' AND '$between2' $filter ORDER BY $orderBy $orderMode LIMIT $startAt, $endAt";
+            }
+
+            // Solo limitar Datos sin ordenar
+            if($orderBy == null && $orderMode == null && $startAt != null && $endAt != null){
+                $sql = "SELECT $select FROM $relArray[0] $innerJoinText WHERE $linkTo BETWEEN '$between1' AND '$between2' $filter LIMIT $startAt, $endAt";
+            }
+
+            $stmt = Connection::connect()->prepare($sql);
+            $stmt->execute();
+            $response = $stmt->fetchAll(PDO::FETCH_CLASS);
+            return $response;
+
+        }else{
+
+            return null;
+
+        }
+        
+    }
+
 
 }

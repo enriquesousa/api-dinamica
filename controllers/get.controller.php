@@ -81,6 +81,18 @@ class GetController{
         $return -> fncResponse($response);
     }
 
+    // *****************************************************************
+    // Peticiones GET para selección de rangos entre tablas relacionadas
+    // *****************************************************************
+    static public function getRelDataRange($rel, $type, $select, $linkTo, $between1, $between2, $orderBy = null, $orderMode = null, $startAt = null, $endAt = null, $filterTo = null, $inTo = null){
+        
+        $response = GetModel::getRelDataRange($rel, $type, $select, $linkTo, $between1, $between2, $orderBy, $orderMode, $startAt, $endAt, $filterTo, $inTo);
+        
+        $return = new GetController();
+        $return -> fncResponse($response);
+    }
+
+
 
 
 
