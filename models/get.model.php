@@ -290,5 +290,96 @@ class GetModel {
 
 	}
 
+    // **************************************************************
+    // Get para el buscador entre tablas relacionadas
+    // **************************************************************
+    static public function getRelDataSearch($rel, $type, $select, $linkTo, $search, $orderBy = null, $orderMode = null, $startAt = null, $endAt = null){
+
+        /*=============================================
+		Organizamos los filtros
+		=============================================*/
+        $linkToArray = explode(",", $linkTo);
+        $searchArray = explode("_", $search);
+        $linkToText = "";
+
+        if(count($linkToArray)>1){
+			foreach ($linkToArray as $key => $value) {
+				if($key > 0){
+					$linkToText .= "AND ".$value." = :".$value." ";
+				}
+			}
+		}
+
+        /*=============================================
+		Organizamos las Relaciones
+		=============================================*/
+		$relArray = explode(",", $rel);
+		$typeArray = explode(",", $type);
+		$innerJoinText = "";
+
+		if(count($relArray)>1){
+
+			foreach ($relArray as $key => $value) {
+				/*=============================================
+				Validar existencia de la tabla y de las columnas
+				=============================================*/
+				// if(empty(Connection::getColumnsData($value,["*"]))){
+				// 	return null;
+				// }
+				
+				if($key > 0){
+					$innerJoinText .= "INNER JOIN ".$value." ON ".$relArray[0].".id_".$typeArray[$key]."_".$typeArray[0] ." = ".$value.".id_".$typeArray[$key]." ";
+				}
+			}
+
+			/*=============================================
+			Sin ordenar y sin limitar datos
+			=============================================*/
+            $sql = "SELECT $select FROM $relArray[0] $innerJoinText WHERE $linkToArray[0] LIKE '%$searchArray[0]%' $linkToText";
+
+			/*=============================================
+			Ordenar datos sin limites
+			=============================================*/
+			if($orderBy != null && $orderMode != null && $startAt == null && $endAt == null){
+				$sql = "SELECT $select FROM $relArray[0] $innerJoinText WHERE $linkToArray[0] LIKE '%$searchArray[0]%' $linkToText ORDER BY $orderBy $orderMode";
+			}
+
+			/*=============================================
+			Ordenar y limitar datos
+			=============================================*/
+			if($orderBy != null && $orderMode != null && $startAt != null && $endAt != null){
+				$sql = "SELECT $select FROM $relArray[0] $innerJoinText WHERE $linkToArray[0] LIKE '%$searchArray[0]%' $linkToText ORDER BY $orderBy $orderMode LIMIT $startAt, $endAt";
+			}
+
+			/*=============================================
+			Limitar datos sin ordenar
+			=============================================*/
+			if($orderBy == null && $orderMode == null && $startAt != null && $endAt != null){
+				$sql = "SELECT $select FROM $relArray[0] $innerJoinText WHERE $linkToArray[0] LIKE '%$searchArray[0]%' $linkToText LIMIT $startAt, $endAt";
+			}
+
+			$stmt = Connection::connect()->prepare($sql);
+
+            // Para la seguridad usar bindParam de PDO, enlazar parameters
+            foreach ($linkToArray as $key => $value) {
+                if($key > 0){
+                    $stmt -> bindParam(":".$value, $searchArray[$key], PDO::PARAM_STR);
+                }
+            }
+
+			try{
+				$stmt -> execute();
+			}catch(PDOException $Exception){
+				return null;
+			}
+
+			return $stmt -> fetchAll(PDO::FETCH_CLASS);
+
+		}else{
+			return null;
+		}
+
+    }
+
 
 }
