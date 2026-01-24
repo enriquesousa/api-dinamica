@@ -8,6 +8,8 @@ $orderBy = $_GET["orderBy"] ?? null;
 $orderMode = $_GET["orderMode"] ?? null;
 $startAt = $_GET["startAt"] ?? null;
 $endAt = $_GET["endAt"] ?? null;
+$filterTo = $_GET["filterTo"] ?? null;
+$inTo = $_GET["inTo"] ?? null;
 
 $response = new GetController();
 
@@ -54,7 +56,7 @@ if( isset($_GET["linkTo"]) && isset($_GET["equalTo"]) && !isset($_GET["rel"]) &&
     // **************************************************************
     // Peticiones GET para selección de rangos
     // **************************************************************
-    $response -> getDataRange($table, $select, $_GET["linkTo"], $_GET["between1"], $_GET["between2"], $orderBy, $orderMode, $startAt, $endAt);
+    $response -> getDataRange($table, $select, $_GET["linkTo"], $_GET["between1"], $_GET["between2"], $orderBy, $orderMode, $startAt, $endAt, $filterTo, $inTo);
 
 }else{
 
