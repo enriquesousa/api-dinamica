@@ -73,7 +73,7 @@ class GetModel {
 
         $stmt = Connection::connect()->prepare($sql);
 
-        // Para la seguridad usar bindParam de PDO
+        // Para la seguridad usar bindParam de PDO, enlazar parameters
         foreach ($linkToArray as $key => $value) {
 			$stmt -> bindParam(":".$value, $equalToArray[$key], PDO::PARAM_STR);
 		}
@@ -245,26 +245,46 @@ class GetModel {
     // **************************************************************
 	static public function getDataSearch($table, $select, $linkTo, $search, $orderBy, $orderMode, $startAt, $endAt){
 
+        $linkToArray = explode(",", $linkTo);
+        $searchArray = explode("_", $search);
+        $linkToText = "";
+
+        if(count($linkToArray)>1){
+			foreach ($linkToArray as $key => $value) {
+				if($key > 0){
+					$linkToText .= "AND ".$value." = :".$value." ";
+				}
+			}
+		}
+
         // Sin filtrar y sin ordenar datos 
-        $sql = "SELECT $select FROM $table WHERE $linkTo LIKE '%$search%'";
+        $sql = "SELECT $select FROM $table WHERE $linkToArray[0] LIKE '%$searchArray[0]%' $linkToText";
 
         // Estamos Ordenando sin limitar datos
         if($orderBy != null && $orderMode != null && $startAt == null && $endAt == null){
-            $sql = "SELECT $select FROM $table WHERE $linkTo LIKE '%$search%' ORDER BY $orderBy $orderMode";
+            $sql = "SELECT $select FROM $table WHERE $linkToArray[0] LIKE '%$searchArray[0]%' $linkToText ORDER BY $orderBy $orderMode";
         }
 
         // Ordenar y limitar Datos
         if($orderBy != null && $orderMode != null && $startAt != null && $endAt != null){
-            $sql = "SELECT $select FROM $table WHERE $linkTo LIKE '%$search%' ORDER BY $orderBy $orderMode LIMIT $startAt, $endAt";
+            $sql = "SELECT $select FROM $table WHERE $linkToArray[0] LIKE '%$searchArray[0]%' $linkToText ORDER BY $orderBy $orderMode LIMIT $startAt, $endAt";
         }
 
         // Solo limitar Datos sin ordenar
         if($orderBy == null && $orderMode == null && $startAt != null && $endAt != null){
-            $sql = "SELECT $select FROM $table WHERE $linkTo LIKE '%$search%' LIMIT $startAt, $endAt";
+            $sql = "SELECT $select FROM $table WHERE $linkToArray[0] LIKE '%$searchArray[0]%' $linkToText LIMIT $startAt, $endAt";
         }
 
         $stmt = Connection::connect()->prepare($sql);
+
+        // Para la seguridad usar bindParam de PDO, enlazar parameters
+        foreach ($linkToArray as $key => $value) {
+            if($key > 0){
+                $stmt -> bindParam(":".$value, $searchArray[$key], PDO::PARAM_STR);
+            }
+		}
         $stmt->execute();
+
         $response = $stmt->fetchAll(PDO::FETCH_CLASS);
         return $response;
 
