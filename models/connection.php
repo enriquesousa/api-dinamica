@@ -33,24 +33,6 @@ class Connection{
 		return $link;
 	}
 
-
-    // static public function getColumnsData($table){
-
-    //     /*=============================================
-	// 	Traer el nombre de la base de datos
-	// 	=============================================*/
-	// 	$database = Connection::infoDatabase()["database"];
-
-	// 	/*=============================================
-	// 	Traer todas las columnas de una tabla
-	// 	=============================================*/
-	// 	$validate = Connection::connect()
-	// 	->query("SELECT COLUMN_NAME AS item FROM information_schema.columns WHERE table_schema = '$database' AND table_name = '$table'")
-	// 	->fetchAll(PDO::FETCH_OBJ);
-
-    //     return $validate;
-    // }
-
     // **************************************************************
     // Validar existencia una tabla en la base de datos
     // **************************************************************
