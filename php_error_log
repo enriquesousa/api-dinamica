@@ -48,3 +48,33 @@ Stack trace:
 #5 D:\xampp\htdocs\sites\api-dinamica\index.php(22): routesController->index()
 #6 {main}
   thrown in D:\xampp\htdocs\sites\api-dinamica\models\get.model.php on line 38
+[25-Jan-2026 16:49:48 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'id_coursi' in 'field list' in D:\xampp\htdocs\sites\api-dinamica\models\get.model.php:38
+Stack trace:
+#0 D:\xampp\htdocs\sites\api-dinamica\models\get.model.php(38): PDOStatement->execute()
+#1 D:\xampp\htdocs\sites\api-dinamica\controllers\get.controller.php(12): GetModel::getData('courses', 'id_coursi', NULL, NULL, NULL, NULL)
+#2 D:\xampp\htdocs\sites\api-dinamica\routes\services\get.php(73): GetController::getData('courses', 'id_coursi', NULL, NULL, NULL, NULL)
+#3 D:\xampp\htdocs\sites\api-dinamica\routes\routes.php(52): include('D:\\xampp\\htdocs...')
+#4 D:\xampp\htdocs\sites\api-dinamica\controllers\routes.controller.php(9): include_once('D:\\xampp\\htdocs...')
+#5 D:\xampp\htdocs\sites\api-dinamica\index.php(22): routesController->index()
+#6 {main}
+  thrown in D:\xampp\htdocs\sites\api-dinamica\models\get.model.php on line 38
+[25-Jan-2026 17:18:32 UTC] PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function Connection::getColumnsData(), 1 passed in D:\xampp\htdocs\sites\api-dinamica\models\get.model.php on line 53 and exactly 2 expected in D:\xampp\htdocs\sites\api-dinamica\models\connection.php:57
+Stack trace:
+#0 D:\xampp\htdocs\sites\api-dinamica\models\get.model.php(53): Connection::getColumnsData('courses')
+#1 D:\xampp\htdocs\sites\api-dinamica\controllers\get.controller.php(25): GetModel::getDataFilter('courses', 'title_course,ti...', 'title_course', 'Desarrollo Web ...', NULL, NULL, NULL, NULL)
+#2 D:\xampp\htdocs\sites\api-dinamica\routes\services\get.php(24): GetController::getDataFilter('courses', 'title_course,ti...', 'title_course', 'Desarrollo Web ...', NULL, NULL, NULL, NULL)
+#3 D:\xampp\htdocs\sites\api-dinamica\routes\routes.php(52): include('D:\\xampp\\htdocs...')
+#4 D:\xampp\htdocs\sites\api-dinamica\controllers\routes.controller.php(9): include_once('D:\\xampp\\htdocs...')
+#5 D:\xampp\htdocs\sites\api-dinamica\index.php(22): routesController->index()
+#6 {main}
+  thrown in D:\xampp\htdocs\sites\api-dinamica\models\connection.php on line 57
+[25-Jan-2026 17:19:12 UTC] PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function Connection::getColumnsData(), 1 passed in D:\xampp\htdocs\sites\api-dinamica\models\get.model.php on line 53 and exactly 2 expected in D:\xampp\htdocs\sites\api-dinamica\models\connection.php:57
+Stack trace:
+#0 D:\xampp\htdocs\sites\api-dinamica\models\get.model.php(53): Connection::getColumnsData('courses')
+#1 D:\xampp\htdocs\sites\api-dinamica\controllers\get.controller.php(25): GetModel::getDataFilter('courses', 'id_course,title...', 'title_course', 'Desarrollo Web ...', NULL, NULL, NULL, NULL)
+#2 D:\xampp\htdocs\sites\api-dinamica\routes\services\get.php(24): GetController::getDataFilter('courses', 'id_course,title...', 'title_course', 'Desarrollo Web ...', NULL, NULL, NULL, NULL)
+#3 D:\xampp\htdocs\sites\api-dinamica\routes\routes.php(52): include('D:\\xampp\\htdocs...')
+#4 D:\xampp\htdocs\sites\api-dinamica\controllers\routes.controller.php(9): include_once('D:\\xampp\\htdocs...')
+#5 D:\xampp\htdocs\sites\api-dinamica\index.php(22): routesController->index()
+#6 {main}
+  thrown in D:\xampp\htdocs\sites\api-dinamica\models\connection.php on line 57

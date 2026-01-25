@@ -9,10 +9,11 @@ class GetModel {
     // **************************************************************
     static public function getData($table, $select, $orderBy = null, $orderMode = null, $startAt = null, $endAt = null){
 
-        // ****************************** 
-        // Validar existencia de la tabla
-        // ****************************** 
-        if( empty( Connection::getColumnsData($table) ) ){
+        // ************************************************
+        // Validar existencia de la tabla y de las columnas
+        // ************************************************
+        $selectArray = explode(",", $select);
+        if( empty( Connection::getColumnsData($table, $selectArray) ) ){
             return null;
         }
 
@@ -46,14 +47,20 @@ class GetModel {
     // **************************************************************
     static public function getDataFilter($table, $select, $linkTo, $equalTo, $orderBy = null, $orderMode = null, $startAt = null, $endAt = null){
 
-        // ****************************** 
-        // Validar existencia de la tabla 
-        // ****************************** 
-        if( empty( Connection::getColumnsData($table) ) ){
+        // ************************************************
+        // Validar existencia de la tabla y de las columnas
+        // ************************************************
+        $linkToArray = explode(",", $linkTo);
+        $selectArray = explode(",", $select);
+        foreach ($linkToArray as $key => $value) {
+            array_push($selectArray, $value);
+        }
+        // eliminar indices repetidos
+        $selectArray = array_unique($selectArray);
+        if( empty( Connection::getColumnsData($table, $selectArray) ) ){
             return null;
         }
 
-        $linkToArray = explode(",", $linkTo);
         $equalToArray = explode("_", $equalTo);
         $linkToText = "";
 
@@ -105,18 +112,21 @@ class GetModel {
         /*=============================================
 		Validar existencia de las columnas
 		=============================================*/
+        $selectArray = explode(",", $select);
+
 		$relArray = explode(",", $rel);
 		$typeArray = explode(",", $type);
 		$innerJoinText = "";
 
 		if(count($relArray)>1){
 
+
 			foreach ($relArray as $key => $value) {
 
                 // ****************************** 
                 // Validar existencia de la tabla 
                 // ****************************** 
-                if( empty( Connection::getColumnsData($value) ) ){
+                if( empty( Connection::getColumnsData($value, $selectArray) ) ){
                     return null;
                 }
 
@@ -180,9 +190,18 @@ class GetModel {
     static public function getRelDataFilter($rel, $type, $select, $linkTo, $equalTo, $orderBy = null, $orderMode = null, $startAt = null, $endAt = null){
 
         /*=============================================
-		Organizamos los filtros
+		Validar existencia de las columnas
 		=============================================*/
         $linkToArray = explode(",", $linkTo);
+        $selectArray = explode(",", $select);
+        foreach ($linkToArray as $key => $value) {
+            array_push($selectArray, $value);
+        }
+        $selectArray = array_unique($selectArray);
+
+        /*=============================================
+		Organizamos los filtros
+		=============================================*/
         $equalToArray = explode(",", $equalTo);
         $linkToText = "";
 
@@ -192,7 +211,7 @@ class GetModel {
                 // ****************************** 
                 // Validar existencia de la tabla 
                 // ****************************** 
-                if( empty( Connection::getColumnsData($value) ) ){
+                if( empty( Connection::getColumnsData($value, $selectArray) ) ){
                     return null;
                 }
 
@@ -275,14 +294,21 @@ class GetModel {
     // **************************************************************
 	static public function getDataSearch($table, $select, $linkTo, $search, $orderBy, $orderMode, $startAt, $endAt){
 
-        // ****************************** 
-        // Validar existencia de la tabla
-        // ****************************** 
-        if( empty( Connection::getColumnsData($table) ) ){
+        // ************************************************
+        // Validar existencia de la tabla y de las columnas
+        // ************************************************
+        $linkToArray = explode(",", $linkTo);
+        $selectArray = explode(",", $select);
+        foreach ($linkToArray as $key => $value) {
+            array_push($selectArray, $value);
+        }
+        // eliminar indices repetidos
+        $selectArray = array_unique($selectArray);
+        
+        if( empty( Connection::getColumnsData($table, $selectArray) ) ){
             return null;
         }
-
-        $linkToArray = explode(",", $linkTo);
+        
         $searchArray = explode("_", $search);
         $linkToText = "";
 
@@ -333,9 +359,19 @@ class GetModel {
     static public function getRelDataSearch($rel, $type, $select, $linkTo, $search, $orderBy = null, $orderMode = null, $startAt = null, $endAt = null){
 
         /*=============================================
-		Organizamos los filtros
+		Validar existencia de la tabla y de las columnas
 		=============================================*/
         $linkToArray = explode(",", $linkTo);
+        $selectArray = explode(",", $select);
+        foreach ($linkToArray as $key => $value) {
+            array_push($selectArray, $value);
+        }
+        // eliminar indices repetidos
+        $selectArray = array_unique($selectArray);
+
+        /*=============================================
+		Organizamos los filtros
+		=============================================*/
         $searchArray = explode("_", $search);
         $linkToText = "";
 
@@ -345,7 +381,7 @@ class GetModel {
                 // ****************************** 
                 // Validar existencia de la tabla
                 // ****************************** 
-                if( empty( Connection::getColumnsData($value) ) ){
+                if( empty( Connection::getColumnsData($value, $selectArray) ) ){
                     return null;
                 }
 
@@ -431,12 +467,27 @@ class GetModel {
     // **************************************************************
     static public function getDataRange($table , $select, $linkTo, $between1, $between2, $orderBy = null, $orderMode = null, $startAt = null, $endAt = null, $filterTo = null, $inTo = null){
 
-        // ****************************** 
-        // Validar existencia de la tabla
-        // ****************************** 
-        if( empty( Connection::getColumnsData($table) ) ){
+        // ************************************************
+        // Validar existencia de la tabla y de las columnas
+        // ************************************************
+        $linkToArray = explode(",", $linkTo);
+        $filterToArray = explode(",", $filterTo);
+        $selectArray = explode(",", $select);
+
+        foreach ($linkToArray as $key => $value) {
+            array_push($selectArray, $value);
+        }
+
+        foreach ($filterToArray as $key => $value) {
+            array_push($selectArray, $value);
+        }
+
+        $selectArray = array_unique($selectArray);
+
+        if( empty( Connection::getColumnsData($table, $selectArray) ) ){
             return null;
         }
+
 
         $filter = "";
         if($filterTo != null && $inTo != null){
@@ -473,14 +524,29 @@ class GetModel {
     // ****************************************************************
     static public function getRelDataRange($rel, $type, $select, $linkTo, $between1, $between2, $orderBy = null, $orderMode = null, $startAt = null, $endAt = null, $filterTo = null, $inTo = null){
 
+        // ************************************************
+        // Validar existencia de la tabla y de las columnas
+        // ************************************************
+        $linkToArray = explode(",", $linkTo);
+        $filterToArray = explode(",", $filterTo);
+        $selectArray = explode(",", $select);
+
+        foreach ($linkToArray as $key => $value) {
+            array_push($selectArray, $value);
+        }
+
+        foreach ($filterToArray as $key => $value) {
+            array_push($selectArray, $value);
+        }
+
+        $selectArray = array_unique($selectArray);
+        
+
         $filter = "";
         if($filterTo != null && $inTo != null){
             $filter = "AND $filterTo IN ($inTo)";
         }
-
-        /*=============================================
-		Validar existencia de las columnas
-		=============================================*/
+        
 		$relArray = explode(",", $rel);
 		$typeArray = explode(",", $type);
 		$innerJoinText = "";
@@ -492,7 +558,7 @@ class GetModel {
                 // ****************************** 
                 // Validar existencia de la tabla 
                 // ****************************** 
-                if( empty( Connection::getColumnsData($value) ) ){
+                if( empty( Connection::getColumnsData($value, $selectArray) ) ){
                     return null;
                 }
 
