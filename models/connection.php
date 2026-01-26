@@ -57,9 +57,9 @@ class Connection{
 			return null;
 		}else{
 
-			/*=============================================
-			Ajuste de selección de columnas globales
-			=============================================*/
+			/*========================================================================
+			Ajuste de selección de columnas globales - Traer el nombre de las columnas
+			==========================================================================*/
 			if($columns[0] == "*"){
 				array_shift($columns);
 			}

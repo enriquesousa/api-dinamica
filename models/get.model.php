@@ -36,7 +36,16 @@ class GetModel {
         }
 
         $stmt = Connection::connect()->prepare($sql);
-        $stmt->execute();
+
+        /*=============================================
+        Ejecutamos la consulta
+        =============================================*/
+        try{
+            $stmt->execute();
+        }catch(PDOException $Exception){
+            return null;
+        }
+
         $response = $stmt->fetchAll(PDO::FETCH_CLASS);
         return $response;
 
@@ -98,7 +107,15 @@ class GetModel {
         foreach ($linkToArray as $key => $value) {
 			$stmt -> bindParam(":".$value, $equalToArray[$key], PDO::PARAM_STR);
 		}
-        $stmt->execute();
+
+        /*=============================================
+        Ejecutamos la consulta
+        =============================================*/
+        try{
+            $stmt->execute();
+        }catch(PDOException $Exception){
+            return null;
+        }
 
         $response = $stmt->fetchAll(PDO::FETCH_CLASS);
         return $response;
@@ -112,8 +129,6 @@ class GetModel {
         /*=============================================
 		Validar existencia de las columnas
 		=============================================*/
-        $selectArray = explode(",", $select);
-
 		$relArray = explode(",", $rel);
 		$typeArray = explode(",", $type);
 		$innerJoinText = "";
@@ -123,10 +138,10 @@ class GetModel {
 
 			foreach ($relArray as $key => $value) {
 
-                // ****************************** 
-                // Validar existencia de la tabla 
-                // ****************************** 
-                if( empty( Connection::getColumnsData($value, $selectArray) ) ){
+                // ************************************************
+                // Validar existencia de la tabla y de las columnas
+                // ************************************************
+                if( empty( Connection::getColumnsData($value, ["*"]) ) ){
                     return null;
                 }
 
@@ -170,8 +185,11 @@ class GetModel {
 
 			$stmt = Connection::connect()->prepare($sql);
 
+            /*=============================================
+			Ejecutamos la consulta
+			=============================================*/
 			try{
-				$stmt -> execute();
+				$stmt->execute();
 			}catch(PDOException $Exception){
 				return null;
 			}
@@ -190,31 +208,14 @@ class GetModel {
     static public function getRelDataFilter($rel, $type, $select, $linkTo, $equalTo, $orderBy = null, $orderMode = null, $startAt = null, $endAt = null){
 
         /*=============================================
-		Validar existencia de las columnas
-		=============================================*/
-        $linkToArray = explode(",", $linkTo);
-        $selectArray = explode(",", $select);
-        foreach ($linkToArray as $key => $value) {
-            array_push($selectArray, $value);
-        }
-        $selectArray = array_unique($selectArray);
-
-        /*=============================================
 		Organizamos los filtros
 		=============================================*/
+        $linkToArray = explode(",", $linkTo);
         $equalToArray = explode(",", $equalTo);
         $linkToText = "";
 
         if(count($linkToArray)>1){
             foreach ($linkToArray as $key => $value) {
-
-                // ****************************** 
-                // Validar existencia de la tabla 
-                // ****************************** 
-                if( empty( Connection::getColumnsData($value, $selectArray) ) ){
-                    return null;
-                }
-
                 if($key > 0){
                     $linkToText .= "AND ".$value." = :".$value." ";
                 }
@@ -231,12 +232,13 @@ class GetModel {
 		if(count($relArray)>1){
 
 			foreach ($relArray as $key => $value) {
-				/*=============================================
-				Validar existencia de la tabla y de las columnas
-				=============================================*/
-				// if(empty(Connection::getColumnsData($value,["*"]))){
-				// 	return null;
-				// }
+
+				// ************************************************ 
+                // Validar existencia de la tabla y de las columnas
+                // ************************************************
+                if( empty( Connection::getColumnsData($value, ["*"]) ) ){
+                    return null;
+                }
 				
 				if($key > 0){
 					$innerJoinText .= "INNER JOIN ".$value." ON ".$relArray[0].".id_".$typeArray[$key]."_".$typeArray[0] ." = ".$value.".id_".$typeArray[$key]." ";
@@ -275,8 +277,11 @@ class GetModel {
 				$stmt -> bindParam(":".$value, $equalToArray[$key], PDO::PARAM_STR);
 			}
 
+			/*=============================================
+			Ejecutamos la consulta
+			=============================================*/
 			try{
-				$stmt -> execute();
+				$stmt->execute();
 			}catch(PDOException $Exception){
 				return null;
 			}
@@ -346,7 +351,15 @@ class GetModel {
                 $stmt -> bindParam(":".$value, $searchArray[$key], PDO::PARAM_STR);
             }
 		}
-        $stmt->execute();
+
+        /*=============================================
+        Ejecutamos la consulta
+        =============================================*/
+        try{
+            $stmt->execute();
+        }catch(PDOException $Exception){
+            return null;
+        }
 
         $response = $stmt->fetchAll(PDO::FETCH_CLASS);
         return $response;
@@ -359,32 +372,14 @@ class GetModel {
     static public function getRelDataSearch($rel, $type, $select, $linkTo, $search, $orderBy = null, $orderMode = null, $startAt = null, $endAt = null){
 
         /*=============================================
-		Validar existencia de la tabla y de las columnas
-		=============================================*/
-        $linkToArray = explode(",", $linkTo);
-        $selectArray = explode(",", $select);
-        foreach ($linkToArray as $key => $value) {
-            array_push($selectArray, $value);
-        }
-        // eliminar indices repetidos
-        $selectArray = array_unique($selectArray);
-
-        /*=============================================
 		Organizamos los filtros
 		=============================================*/
+        $linkToArray = explode(",", $linkTo);
         $searchArray = explode("_", $search);
         $linkToText = "";
 
         if(count($linkToArray)>1){
 			foreach ($linkToArray as $key => $value) {
-
-                // ****************************** 
-                // Validar existencia de la tabla
-                // ****************************** 
-                if( empty( Connection::getColumnsData($value, $selectArray) ) ){
-                    return null;
-                }
-
 				if($key > 0){
 					$linkToText .= "AND ".$value." = :".$value." ";
 				}
@@ -401,12 +396,13 @@ class GetModel {
 		if(count($relArray)>1){
 
 			foreach ($relArray as $key => $value) {
-				/*=============================================
-				Validar existencia de la tabla y de las columnas
-				=============================================*/
-				// if(empty(Connection::getColumnsData($value,["*"]))){
-				// 	return null;
-				// }
+
+				// **************************************************************************
+                // Validar existencia de la tabla y de las columnas
+                // **************************************************************************
+                if( empty( Connection::getColumnsData($value, ["*"]) ) ){
+                    return null;
+                }
 				
 				if($key > 0){
 					$innerJoinText .= "INNER JOIN ".$value." ON ".$relArray[0].".id_".$typeArray[$key]."_".$typeArray[0] ." = ".$value.".id_".$typeArray[$key]." ";
@@ -448,8 +444,11 @@ class GetModel {
                 }
             }
 
+			/*=============================================
+			Ejecutamos la consulta
+			=============================================*/
 			try{
-				$stmt -> execute();
+				$stmt->execute();
 			}catch(PDOException $Exception){
 				return null;
 			}
@@ -471,7 +470,13 @@ class GetModel {
         // Validar existencia de la tabla y de las columnas
         // ************************************************
         $linkToArray = explode(",", $linkTo);
-        $filterToArray = explode(",", $filterTo);
+
+        if($filterTo != null){
+            $filterToArray = explode(",", $filterTo);
+        }else{
+            $filterToArray = array();
+        }
+
         $selectArray = explode(",", $select);
 
         foreach ($linkToArray as $key => $value) {
@@ -513,7 +518,16 @@ class GetModel {
         }
 
         $stmt = Connection::connect()->prepare($sql);
-        $stmt->execute();
+
+        /*=============================================
+        Ejecutamos la consulta
+        =============================================*/
+        try{
+            $stmt->execute();
+        }catch(PDOException $Exception){
+            return null;
+        }
+
         $response = $stmt->fetchAll(PDO::FETCH_CLASS);
         return $response;
         
@@ -527,20 +541,7 @@ class GetModel {
         // ************************************************
         // Validar existencia de la tabla y de las columnas
         // ************************************************
-        $linkToArray = explode(",", $linkTo);
-        $filterToArray = explode(",", $filterTo);
-        $selectArray = explode(",", $select);
-
-        foreach ($linkToArray as $key => $value) {
-            array_push($selectArray, $value);
-        }
-
-        foreach ($filterToArray as $key => $value) {
-            array_push($selectArray, $value);
-        }
-
-        $selectArray = array_unique($selectArray);
-        
+        // $linkToArray = explode(",", $linkTo);
 
         $filter = "";
         if($filterTo != null && $inTo != null){
@@ -555,10 +556,10 @@ class GetModel {
 
 			foreach ($relArray as $key => $value) {
 
-                // ****************************** 
-                // Validar existencia de la tabla 
-                // ****************************** 
-                if( empty( Connection::getColumnsData($value, $selectArray) ) ){
+                // *****************************************************************************
+                // Validar existencia de la tabla y de las columnas
+                // *****************************************************************************
+                if( empty( Connection::getColumnsData($value, ["*"]) ) ){
                     return null;
                 }
 
@@ -586,7 +587,16 @@ class GetModel {
             }
 
             $stmt = Connection::connect()->prepare($sql);
-            $stmt->execute();
+
+            /*=============================================
+			Ejecutamos la consulta
+			=============================================*/
+			try{
+				$stmt->execute();
+			}catch(PDOException $Exception){
+				return null;
+			}
+
             $response = $stmt->fetchAll(PDO::FETCH_CLASS);
             return $response;
 
