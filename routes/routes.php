@@ -21,8 +21,8 @@ if(count($routesArray) == 0){
 if(count($routesArray) == 1 && isset($_SERVER['REQUEST_METHOD'])){
 
     // echo '<pre>'; print_r($_SERVER['REQUEST_METHOD']); echo '</pre>';
-
-	// $table = explode("?", $routesArray[1])[0];
+ 
+    $table = explode("?", $routesArray[1])[0]; 
 
 	/*=============================================
 	Validar llave secreta
@@ -56,12 +56,12 @@ if(count($routesArray) == 1 && isset($_SERVER['REQUEST_METHOD'])){
 	Peticiones POST
 	=============================================*/
 	if($_SERVER['REQUEST_METHOD'] == "POST"){
-        $json = array(
-            'status' => 200,
-            'result' => 'Solicitud POST'
-        );
-        echo json_encode($json);
-		// include "services/post.php";
+        // $json = array(
+        //     'status' => 200,
+        //     'result' => 'Solicitud POST'
+        // );
+        // echo json_encode($json);
+		include "services/post.php";
 	}
 
 	/*=============================================

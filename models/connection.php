@@ -33,9 +33,9 @@ class Connection{
 		return $link;
 	}
 
-    // **************************************************************
-    // Validar existencia una tabla en la base de datos
-    // **************************************************************
+    // ****************************************************************
+    // Validar existencia una tabla en la base de datos y sus columnas
+    // ****************************************************************
     static public function getColumnsData($table, $columns){
 
         /*=============================================

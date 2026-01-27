@@ -1,0 +1,96 @@
+(
+    [
+    0
+] => stdClass Object
+        (
+            [item
+] => id_course
+        )
+
+    [
+    1
+] => stdClass Object
+        (
+            [item
+] => title_course
+        )
+
+    [
+    2
+] => stdClass Object
+        (
+            [item
+] => description_course
+        )
+
+    [
+    3
+] => stdClass Object
+        (
+            [item
+] => id_instructor_course
+        )
+
+    [
+    4
+] => stdClass Object
+        (
+            [item
+] => image_course
+        )
+
+    [
+    5
+] => stdClass Object
+        (
+            [item
+] => price_course
+        )
+
+    [
+    6
+] => stdClass Object
+        (
+            [item
+] => date_created_course
+        )
+
+    [
+    7
+] => stdClass Object
+        (
+            [item
+] => date_updated_course
+        )
+
+)
+
+// Lo convertí con IA
+
+json
+[
+  {
+    "item": "id_course"
+  },
+  {
+    "item": "title_course"
+  },
+  {
+    "item": "description_course"
+  },
+  {
+    "item": "id_instructor_course"
+  },
+  {
+    "item": "image_course"
+  },
+  {
+    "item": "price_course"
+  },
+  {
+    "item": "date_created_course"
+  },
+  {
+    "item": "date_updated_course"
+  }
+]
