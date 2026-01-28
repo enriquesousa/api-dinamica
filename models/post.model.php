@@ -1,6 +1,6 @@
 <?php
 
-require_once "models/post.model.php";
+require_once "connection.php";
 
 class PostModel
 {

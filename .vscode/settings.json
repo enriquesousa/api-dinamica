@@ -59,7 +59,10 @@
     },
     "[json]": {
         "editor.defaultFormatter": "vscode.json-language-features"
-    }
+    },
+
+    // Inlay hints, para que oculte los inlay hints al menos que se presione las teclas Ctrl+Alt
+    "editor.inlayHints.enabled": "offUnlessPressed"
     
 
 }

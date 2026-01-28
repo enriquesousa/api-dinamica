@@ -68,12 +68,12 @@ if(count($routesArray) == 1 && isset($_SERVER['REQUEST_METHOD'])){
 	Peticiones PUT
 	=============================================*/
 	if($_SERVER['REQUEST_METHOD'] == "PUT"){
-        $json = array(
-            'status' => 200,
-            'result' => 'Solicitud PUT'
-        );
-        echo json_encode($json);
-		// include "services/put.php";
+        // $json = array(
+        //     'status' => 200,
+        //     'result' => 'Solicitud PUT'
+        // );
+        // echo json_encode($json);
+		include "services/put.php";
 	}
 
 	/*=============================================
