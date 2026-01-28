@@ -1,1 +1,9 @@
 [28-Jan-2026 14:55:56 UTC] PHP Warning:  Undefined variable $_PUT in D:\xampp\htdocs\sites\api-dinamica\routes\services\put.php on line 3
+[28-Jan-2026 22:49:22 UTC] PHP Fatal error:  Uncaught Error: Class "PostController" not found in D:\xampp\htdocs\sites\api-dinamica\controllers\put.controller.php:22
+Stack trace:
+#0 D:\xampp\htdocs\sites\api-dinamica\routes\services\put.php(40): PutController::putData('courses', Array, '64', 'id_course')
+#1 D:\xampp\htdocs\sites\api-dinamica\routes\routes.php(76): include('D:\\xampp\\htdocs...')
+#2 D:\xampp\htdocs\sites\api-dinamica\controllers\routes.controller.php(9): include_once('D:\\xampp\\htdocs...')
+#3 D:\xampp\htdocs\sites\api-dinamica\index.php(22): routesController->index()
+#4 {main}
+  thrown in D:\xampp\htdocs\sites\api-dinamica\controllers\put.controller.php on line 22

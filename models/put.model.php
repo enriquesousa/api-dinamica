@@ -9,14 +9,34 @@ class PutModel
     // Petición PUT para editar datos de forma dinámica
     // **************************************************************
     public static function putData($table, $data, $id, $nameId){
+
+        $set = "";
+        foreach ($data as $key => $value) {
+            $set .= $key." = :".$key.",";
+        }
+        // Quitar la ultima ,
+        $set = substr($set, 0, -1);
+        $sql = "UPDATE $table SET $set WHERE $nameId = :$nameId";
+
+        $link = Connection::connect();
+        $stmt = $link->prepare($sql);
         
-        echo '<pre>'; print_r($nameId); echo '</pre>';
-        echo '<pre>'; print_r($id); echo '</pre>';
-        
-        echo '<pre>'; print_r($data); echo '</pre>';
-        echo '<pre>'; print_r($table); echo '</pre>';
-     
-        
+        foreach ($data as $key => $value) {
+            $stmt->bindParam(":".$key, $data[$key], PDO::PARAM_STR);
+        }
+
+        $stmt->bindParam(":".$nameId, $id, PDO::PARAM_STR);
+
+        if( $stmt->execute() ){
+
+            $response = array(
+                "comment" => "The process was successful"
+            );
+            return $response;
+
+        }else{
+            return $link->errorInfo();
+        }
 
     }
 

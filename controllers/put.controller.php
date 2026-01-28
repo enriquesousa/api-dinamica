@@ -13,13 +13,13 @@ class PutController
         // Solicitamos respuesta del modelo
         // **********************************************************************************
         $response = PutModel::putData($table, $data, $id, $nameId);
-        echo '<pre>'; print_r($response); echo '</pre>';
-        return;
+        // echo '<pre>'; print_r($response); echo '</pre>';
+        // return;
         
         // **********************************************************************************
         // Respuestas del controlador
         // **********************************************************************************
-        $return = new PostController();
+        $return = new PutController();
         $return->fncResponse($response);
 
     }
