@@ -114,7 +114,8 @@ class GetController{
         }else{
             $json = array(
                 'status' => 404,
-                'results' => 'Not Found'
+                'results' => 'Not Found',
+                'method' => 'get'
             );
         }
         
