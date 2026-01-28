@@ -1,6 +1,7 @@
 <?php
 
 require_once "connection.php";
+require_once "get.model.php";
 
 class PutModel
 {
@@ -10,6 +11,17 @@ class PutModel
     // **************************************************************
     public static function putData($table, $data, $id, $nameId){
 
+        // **************************************************************
+        // Validar que el ID si exista!
+        // **************************************************************
+        $response = GetModel::getDataFilter($table, $nameId, $nameId, $id, null, null, null, null);
+        if(empty($response)){
+            return null;
+        }
+
+        // **************************************************************
+        // Actualizamos los datos del registro
+        // **************************************************************
         $set = "";
         foreach ($data as $key => $value) {
             $set .= $key." = :".$key.",";
