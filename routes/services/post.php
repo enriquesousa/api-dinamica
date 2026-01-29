@@ -39,7 +39,17 @@ if( isset($_POST) ){
         $suffix = $_GET["suffix"] ?? "user";
         $response->postRegister($table, $_POST, $suffix);
 
-    }else{
+    }else if( isset($_GET["login"]) && $_GET["login"] == "true" ){
+
+        // **********************************************************************************
+        // Petición POST para login de usuario
+        // **********************************************************************************
+
+        $suffix = $_GET["suffix"] ?? "user";
+        $response->postLogin($table, $_POST, $suffix);
+
+    }
+    else{
 
         // **********************************************************************************
         // Solicitamos respuesta del controlador para crear datos en cualquiera de las tablas

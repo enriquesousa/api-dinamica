@@ -1,5 +1,6 @@
 <?php
 
+require_once "models/get.model.php";
 require_once "models/post.model.php";
 
 class PostController
@@ -12,7 +13,7 @@ class PostController
         $response = PostModel::postData($table, $data);
         
         $return = new PostController();
-        $return->fncResponse($response);
+        $return->fncResponse($response, null);
 
     }
 
@@ -31,9 +32,58 @@ class PostController
             $response = PostModel::postData($table, $data);
             
             $return = new PostController();
-            $return->fncResponse($response);
+            $return->fncResponse($response, null);
 
         }
+        
+    }
+
+    // **************************************************************
+    // Petición POST para Login de usuario
+    // **************************************************************
+    public static function postLogin($table, $data, $suffix){
+        
+        // **************************************************************
+        // Validar que el ID si exista!
+        // **************************************************************
+        $response = GetModel::getDataFilter($table, "*", "email_".$suffix, $data["email_".$suffix], null, null, null, null);
+
+        if( !empty($response) ){
+            
+            // **************************************************************
+            // Validar el password
+            // **************************************************************
+            $crypt = crypt( $data["password_".$suffix], '$2a$07$zvyN70EpB1PhNKTiQdDvnmugEw7c80NXzp539JQr$');
+            if( $response[0]->{ "password_".$suffix } == $crypt )
+            {
+
+                $return = new PostController();
+                $return->fncResponse($response);
+
+                // **************************************************************
+                // Vamos a crear el token de seguridad
+                // **************************************************************
+
+                
+
+
+            }else{
+
+                $response = null;
+                $return = new PostController();
+                $return->fncResponse($response, "Wrong Password");
+                
+            }
+
+        }else{
+
+            $response = null;
+            $return = new PostController();
+            $return->fncResponse($response, "Wrong Email");
+
+        }
+
+        
         
     }
 
@@ -42,19 +92,34 @@ class PostController
     // **************************************************************
     // Respuestas del controlador
     // **************************************************************
-    public function fncResponse($response){
+    public function fncResponse($response, $error = null){
 
         if (!empty($response)) {
+
             $json = array(
                 'status' => 200,
                 'results' => $response
             );
+
         }else{
-            $json = array(
-                'status' => 404,
-                'results' => 'Not Found',
-                'method' => 'post'
-            );
+
+            if($error != null){
+
+                $json = array(
+                    'status' => 400,
+                    'results' => $error
+                );
+
+            }else{
+
+                $json = array(
+                    'status' => 404,
+                    'results' => 'Not Found',
+                    'method' => 'post'
+                );
+
+            }
+
         }
         
         echo json_encode($json, http_response_code($json["status"]));

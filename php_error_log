@@ -25,3 +25,11 @@ Stack trace:
 #3 D:\xampp\htdocs\sites\api-dinamica\index.php(22): routesController->index()
 #4 {main}
   thrown in D:\xampp\htdocs\sites\api-dinamica\controllers\delete.controller.php on line 15
+[29-Jan-2026 19:30:13 UTC] PHP Fatal error:  Uncaught Error: Cannot use object of type stdClass as array in D:\xampp\htdocs\sites\api-dinamica\controllers\post.controller.php:57
+Stack trace:
+#0 D:\xampp\htdocs\sites\api-dinamica\routes\services\post.php(49): PostController::postLogin('instructors', Array, 'instructor')
+#1 D:\xampp\htdocs\sites\api-dinamica\routes\routes.php(64): include('D:\\xampp\\htdocs...')
+#2 D:\xampp\htdocs\sites\api-dinamica\controllers\routes.controller.php(9): include_once('D:\\xampp\\htdocs...')
+#3 D:\xampp\htdocs\sites\api-dinamica\index.php(22): routesController->index()
+#4 {main}
+  thrown in D:\xampp\htdocs\sites\api-dinamica\controllers\post.controller.php on line 57
