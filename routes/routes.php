@@ -80,12 +80,12 @@ if(count($routesArray) == 1 && isset($_SERVER['REQUEST_METHOD'])){
 	Peticiones DELETE
 	=============================================*/
 	if($_SERVER['REQUEST_METHOD'] == "DELETE"){
-        $json = array(
-            'status' => 200,
-            'result' => 'Solicitud DELETE'
-        );
-        echo json_encode($json);
-		// include "services/delete.php";
+        // $json = array(
+        //     'status' => 200,
+        //     'result' => 'Solicitud DELETE'
+        // );
+        // echo json_encode($json);
+		include "services/delete.php";
 	}
 
     return;
