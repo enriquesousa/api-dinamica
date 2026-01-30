@@ -18,7 +18,7 @@ class PostController
         $response = PostModel::postData($table, $data);
         
         $return = new PostController();
-        $return->fncResponse($response, null);
+        $return->fncResponse($response, null, null);
 
     }
 
@@ -37,7 +37,7 @@ class PostController
             $response = PostModel::postData($table, $data);
             
             $return = new PostController();
-            $return->fncResponse($response, null);
+            $return->fncResponse($response, null, $suffix);
 
         }
         
@@ -82,11 +82,11 @@ class PostController
 
                 if(isset($update["comment"]) && $update["comment"] == "The process was successful" ){
 
-                    // $response[0]->{"token_".$suffix} = $jwt;
-                    // $response[0]->{"token_exp_".$suffix} = $token["exp"];
+                    $response[0]->{"token_".$suffix} = $jwt;
+                    $response[0]->{"token_exp_".$suffix} = $token["exp"];
 
-                    // $return = new PostController();
-                    // $return -> fncResponse($response, null,$suffix);
+                    $return = new PostController();
+                    $return -> fncResponse($response, null, $suffix);
                 }
 
 
@@ -94,7 +94,7 @@ class PostController
 
                 $response = null;
                 $return = new PostController();
-                $return->fncResponse($response, "Wrong Password");
+                $return->fncResponse($response, "Wrong Password", $suffix);
                 
             }
 
@@ -102,7 +102,7 @@ class PostController
 
             $response = null;
             $return = new PostController();
-            $return->fncResponse($response, "Wrong Email");
+            $return->fncResponse($response, "Wrong Email", $suffix);
 
         }
         
@@ -113,7 +113,14 @@ class PostController
     // **************************************************************
     // Respuestas del controlador
     // **************************************************************
-    public function fncResponse($response, $error = null){
+    public function fncResponse($response, $error = null, $suffix = null){
+
+        /*=============================================
+        Quitamos la contraseña de la respuesta
+        =============================================*/
+        if(isset($response[0]->{"password_".$suffix})){
+            unset($response[0]->{"password_".$suffix});
+        }
 
         if (!empty($response)) {
 
