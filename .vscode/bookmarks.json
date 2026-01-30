@@ -39,7 +39,12 @@
 			"path": "controllers/post.controller.php",
 			"bookmarks": [
 				{
-					"line": 48,
+					"line": 29,
+					"column": 8,
+					"label": "Registro de user con su password"
+				},
+				{
+					"line": 89,
 					"column": 1,
 					"label": "login user validate"
 				}

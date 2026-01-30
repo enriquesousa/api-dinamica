@@ -39,6 +39,47 @@ class PostController
             $return = new PostController();
             $return->fncResponse($response, null, $suffix);
 
+        }else{
+
+            // ******************************************************************************
+            // Registro de usuario desde aplicaciones externas, como google, facebook etc ...
+            // ******************************************************************************
+            $response = PostModel::postData($table, $data);
+            if( isset($response["comment"]) && $response["comment"] == "The process was successful" ){
+
+                // **************************************************************
+                // Validar que el ID si exista!
+                // **************************************************************
+                $response = GetModel::getDataFilter($table, "*", "email_".$suffix, $data["email_".$suffix], null, null, null, null);
+                if( !empty($response) ){
+                    
+                    $token = Connection::jwt($response[0]->{ "id_".$suffix }, $response[0]->{ "email_".$suffix });
+                    $jwt = JWT::encode($token, "w68pBZa0wZfiYgAXrmhsuNLIR5De67rKxiTEEipN", 'HS256');
+    
+                    // **************************************************************
+                    // Actualizamos la base de datos con el token del usuario
+                    // **************************************************************
+                    $data = array(
+                        "token_".$suffix => $jwt,
+                        "token_exp_".$suffix => $token["exp"]
+                    );
+                    
+                    $update = PutModel::putData($table, $data, $response[0]->{"id_".$suffix}, "id_".$suffix);
+    
+                    if(isset($update["comment"]) && $update["comment"] == "The process was successful" ){
+    
+                        $response[0]->{"token_".$suffix} = $jwt;
+                        $response[0]->{"token_exp_".$suffix} = $token["exp"];
+    
+                        $return = new PostController();
+                        $return -> fncResponse($response, null, $suffix);
+                    }
+
+                }
+
+
+            }
+
         }
         
     }
@@ -55,18 +96,58 @@ class PostController
 
         if( !empty($response) ){
             
-            // **************************************************************
-            // Validar el password
-            // **************************************************************
-            $crypt = crypt( $data["password_".$suffix], '$2a$07$zvyN70EpB1PhNKTiQdDvnmugEw7c80NXzp539JQr$');
-            if( $response[0]->{ "password_".$suffix } == $crypt ) {
-
-                // $return = new PostController();
-                // $return->fncResponse($response);
-
+            if( $response[0]->{ "password_".$suffix } != null ){
+                
                 // **************************************************************
-                // Vamos a crear el token de seguridad
+                // Validar el password
                 // **************************************************************
+                $crypt = crypt( $data["password_".$suffix], '$2a$07$zvyN70EpB1PhNKTiQdDvnmugEw7c80NXzp539JQr$');
+                if( $response[0]->{ "password_".$suffix } == $crypt ) {
+    
+                    // $return = new PostController();
+                    // $return->fncResponse($response);
+    
+                    // **************************************************************
+                    // Vamos a crear el token de seguridad
+                    // **************************************************************
+                    $token = Connection::jwt($response[0]->{ "id_".$suffix }, $response[0]->{ "email_".$suffix });
+                    $jwt = JWT::encode($token, "w68pBZa0wZfiYgAXrmhsuNLIR5De67rKxiTEEipN", 'HS256');
+    
+                    // **************************************************************
+                    // Actualizamos la base de datos con el token del usuario
+                    // **************************************************************
+                    $data = array(
+                        "token_".$suffix => $jwt,
+                        "token_exp_".$suffix => $token["exp"]
+                    );
+                    
+                    $update = PutModel::putData($table, $data, $response[0]->{"id_".$suffix}, "id_".$suffix);
+    
+                    if(isset($update["comment"]) && $update["comment"] == "The process was successful" ){
+    
+                        $response[0]->{"token_".$suffix} = $jwt;
+                        $response[0]->{"token_exp_".$suffix} = $token["exp"];
+    
+                        $return = new PostController();
+                        $return -> fncResponse($response, null, $suffix);
+                    }
+    
+    
+                }else{
+    
+                    $response = null;
+                    $return = new PostController();
+                    $return->fncResponse($response, "Wrong Password", $suffix);
+                    
+                }
+
+            }else{
+
+                // *******************************************************************************
+                // Significa que el usuario se pudo haber registrado con redes sociales
+                // Creamos el token de seguridad para el usuario que fue logueado con app externa
+                // *******************************************************************************
+
                 $token = Connection::jwt($response[0]->{ "id_".$suffix }, $response[0]->{ "email_".$suffix });
                 $jwt = JWT::encode($token, "w68pBZa0wZfiYgAXrmhsuNLIR5De67rKxiTEEipN", 'HS256');
 
@@ -89,14 +170,8 @@ class PostController
                     $return -> fncResponse($response, null, $suffix);
                 }
 
-
-            }else{
-
-                $response = null;
-                $return = new PostController();
-                $return->fncResponse($response, "Wrong Password", $suffix);
-                
             }
+
 
         }else{
 
