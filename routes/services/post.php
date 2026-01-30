@@ -52,10 +52,23 @@ if( isset($_POST) ){
     else{
 
         // **********************************************************************************
-        // Solicitamos respuesta del controlador para crear datos en cualquiera de las tablas
+        // Petición POST para usuarios autorizados
         // **********************************************************************************
-        
-        $response->postData($table, $_POST);
+        if($_GET["token"]){
+
+            $tableToken = $_GET["table"] ?? "users";
+            $suffix = $_GET["suffix"] ?? "user";
+
+            $validate = Connection::tokenValidate($_GET["token"], $tableToken, $suffix);
+            return;
+
+
+            // **********************************************************************************
+            // Solicitamos respuesta del controlador para crear datos en cualquiera de las tablas
+            // **********************************************************************************
+            $response->postData($table, $_POST);
+
+        }
 
     }
 

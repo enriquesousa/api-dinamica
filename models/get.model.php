@@ -70,7 +70,7 @@ class GetModel {
             return null;
         }
 
-        $equalToArray = explode("_", $equalTo);
+        $equalToArray = explode(",", $equalTo);
         $linkToText = "";
 
         if(count($linkToArray)>1){
@@ -314,7 +314,7 @@ class GetModel {
             return null;
         }
         
-        $searchArray = explode("_", $search);
+        $searchArray = explode(",", $search);
         $linkToText = "";
 
         if(count($linkToArray)>1){
@@ -375,7 +375,7 @@ class GetModel {
 		Organizamos los filtros
 		=============================================*/
         $linkToArray = explode(",", $linkTo);
-        $searchArray = explode("_", $search);
+        $searchArray = explode(",", $search);
         $linkToText = "";
 
         if(count($linkToArray)>1){
