@@ -33,3 +33,25 @@ Stack trace:
 #3 D:\xampp\htdocs\sites\api-dinamica\index.php(22): routesController->index()
 #4 {main}
   thrown in D:\xampp\htdocs\sites\api-dinamica\controllers\post.controller.php on line 57
+[30-Jan-2026 15:40:54 UTC] PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function Firebase\JWT\JWT::encode(), 2 passed in D:\xampp\htdocs\sites\api-dinamica\models\connection.php on line 100 and at least 3 expected in D:\xampp\htdocs\sites\api-dinamica\vendor\firebase\php-jwt\src\JWT.php:212
+Stack trace:
+#0 D:\xampp\htdocs\sites\api-dinamica\models\connection.php(100): Firebase\JWT\JWT::encode(Array, Object(SensitiveParameterValue))
+#1 D:\xampp\htdocs\sites\api-dinamica\controllers\post.controller.php(66): Connection::jwt(27, 'instructor@corr...')
+#2 D:\xampp\htdocs\sites\api-dinamica\routes\services\post.php(49): PostController::postLogin('instructors', Array, 'instructor')
+#3 D:\xampp\htdocs\sites\api-dinamica\routes\routes.php(64): include('D:\\xampp\\htdocs...')
+#4 D:\xampp\htdocs\sites\api-dinamica\controllers\routes.controller.php(9): include_once('D:\\xampp\\htdocs...')
+#5 D:\xampp\htdocs\sites\api-dinamica\index.php(22): routesController->index()
+#6 {main}
+  thrown in D:\xampp\htdocs\sites\api-dinamica\vendor\firebase\php-jwt\src\JWT.php on line 212
+[30-Jan-2026 15:50:07 UTC] PHP Fatal error:  Uncaught DomainException: Provided key is too short in D:\xampp\htdocs\sites\api-dinamica\vendor\firebase\php-jwt\src\JWT.php:709
+Stack trace:
+#0 D:\xampp\htdocs\sites\api-dinamica\vendor\firebase\php-jwt\src\JWT.php(264): Firebase\JWT\JWT::validateHmacKeyLength('aflpLIm5MEpcTdz...', 'SHA256')
+#1 D:\xampp\htdocs\sites\api-dinamica\vendor\firebase\php-jwt\src\JWT.php(232): Firebase\JWT\JWT::sign('eyJ0eXAiOiJKV1Q...', Object(SensitiveParameterValue), 'HS256')
+#2 D:\xampp\htdocs\sites\api-dinamica\models\connection.php(100): Firebase\JWT\JWT::encode(Array, Object(SensitiveParameterValue), 'HS256')
+#3 D:\xampp\htdocs\sites\api-dinamica\controllers\post.controller.php(66): Connection::jwt(27, 'instructor@corr...')
+#4 D:\xampp\htdocs\sites\api-dinamica\routes\services\post.php(49): PostController::postLogin('instructors', Array, 'instructor')
+#5 D:\xampp\htdocs\sites\api-dinamica\routes\routes.php(64): include('D:\\xampp\\htdocs...')
+#6 D:\xampp\htdocs\sites\api-dinamica\controllers\routes.controller.php(9): include_once('D:\\xampp\\htdocs...')
+#7 D:\xampp\htdocs\sites\api-dinamica\index.php(22): routesController->index()
+#8 {main}
+  thrown in D:\xampp\htdocs\sites\api-dinamica\vendor\firebase\php-jwt\src\JWT.php on line 709

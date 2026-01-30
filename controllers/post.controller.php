@@ -2,6 +2,11 @@
 
 require_once "models/get.model.php";
 require_once "models/post.model.php";
+require_once "models/connection.php";
+require_once "models/put.model.php";
+
+require_once "vendor/autoload.php";
+use Firebase\JWT\JWT;
 
 class PostController
 {
@@ -54,17 +59,35 @@ class PostController
             // Validar el password
             // **************************************************************
             $crypt = crypt( $data["password_".$suffix], '$2a$07$zvyN70EpB1PhNKTiQdDvnmugEw7c80NXzp539JQr$');
-            if( $response[0]->{ "password_".$suffix } == $crypt )
-            {
+            if( $response[0]->{ "password_".$suffix } == $crypt ) {
 
-                $return = new PostController();
-                $return->fncResponse($response);
+                // $return = new PostController();
+                // $return->fncResponse($response);
 
                 // **************************************************************
                 // Vamos a crear el token de seguridad
                 // **************************************************************
+                $token = Connection::jwt($response[0]->{ "id_".$suffix }, $response[0]->{ "email_".$suffix });
+                $jwt = JWT::encode($token, "w68pBZa0wZfiYgAXrmhsuNLIR5De67rKxiTEEipN", 'HS256');
 
+                // **************************************************************
+                // Actualizamos la base de datos con el token del usuario
+                // **************************************************************
+                $data = array(
+                    "token_".$suffix => $jwt,
+                    "token_exp_".$suffix => $token["exp"]
+                );
                 
+                $update = PutModel::putData($table, $data, $response[0]->{"id_".$suffix}, "id_".$suffix);
+
+                if(isset($update["comment"]) && $update["comment"] == "The process was successful" ){
+
+                    // $response[0]->{"token_".$suffix} = $jwt;
+                    // $response[0]->{"token_exp_".$suffix} = $token["exp"];
+
+                    // $return = new PostController();
+                    // $return -> fncResponse($response, null,$suffix);
+                }
 
 
             }else{
@@ -82,8 +105,6 @@ class PostController
             $return->fncResponse($response, "Wrong Email");
 
         }
-
-        
         
     }
 

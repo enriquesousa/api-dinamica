@@ -77,8 +77,27 @@ class Connection{
 
     }
 
+    // ****************************************************************
+    // Generar Token de Autenticación
+    // ****************************************************************
+    static public function jwt($id, $email){
 
+        $time = time(); // Tiempo en que inicia el token - current time
 
+		$token = array(
+			"iat" =>  $time, 
+			"exp" => $time + (60*60*24), // Tiempo en que expirará el token (1 día) - segundos * minutos * horas
+			"data" => [
+				"id" => $id,
+				"email" => $email
+			]
+		);
+
+        // $jwt = JWT::encode($token, "w68pBZa0wZfiYgAXrmhsuNLIR5De67rKxiTEEipN", 'HS256');
+        // echo '<pre>'; print_r($jwt); echo '</pre>';
+
+		return $token;
+    }
 
 
 
